@@ -37,7 +37,7 @@ namespace ByteBank
 
         public ContaCorrente(int agencia, int numero)
         {
-            if (numero <= 0)
+            if (agencia <= 0)
             {
                 throw new ArgumentException("O argumento agencia deve ser maior que 0.", nameof(agencia));
             }
@@ -64,7 +64,7 @@ namespace ByteBank
             if (_saldo < valor)
             {
                 
-                throw new SaldoInsuficienteException(Saldo, valor); // we need a messege(or the parametets specified inside the constructor) inside the exception because we set a messege as argument in the expetion's constructor. 
+                throw new SaldoInsuficienteException(Saldo, valor); // we need a messege(or the parameters specified inside the constructor) inside the exception because we set a messege as argument in the expetion's constructor. 
                                                                                                // we can't throw a exception without a messege as argument.
             }
 
@@ -74,6 +74,10 @@ namespace ByteBank
 
         public void Depositar(double valor)
         {
+           if (valor < 0)
+           {
+                throw new ArgumentException("Valor inválido para depóstio.", nameof(valor));
+           }
             _saldo += valor;
         }
 

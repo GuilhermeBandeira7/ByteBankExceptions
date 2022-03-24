@@ -15,19 +15,19 @@ namespace ByteBank
                 ContaCorrente conta = new ContaCorrente(456, 45857);
                 ContaCorrente conta2 = new ContaCorrente(524, 25417);
 
-                conta2.Transferir(-10, conta);
+                conta2.Transferir(-10, conta); // -10 causes an argument exception
 
-                conta.Depositar(50);
-                Console.WriteLine(conta.Saldo);
-                conta.Sacar(-500);
+                conta.Depositar(5);
+                Console.WriteLine(conta.Saldo); 
+                conta.Sacar(-500); // -500 causes an argument exception
 
-               
+
             }
             catch (ArgumentException ex)
             {
                 if(ex.ParamName == "numero")
                 {
-                    
+
                 }
 
                 Console.WriteLine("Argumento com problema: " + ex.ParamName);
@@ -43,8 +43,22 @@ namespace ByteBank
             {
                 Console.WriteLine(ex.Message);
             }
-            
-            //Metodo();
+
+            Console.WriteLine("Total de contas criadas: " + ContaCorrente.TotalDeContasCriadas);
+
+
+            try
+            {
+                Metodo();
+            }
+            catch (DivideByZeroException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+
+
+
 
             Console.WriteLine("Execução finalizada. Tecle enter para sair");
             Console.ReadLine();
@@ -65,16 +79,12 @@ namespace ByteBank
 
         private static int Dividir(int numero, int divisor)
         {
-            try
+            if (divisor <= 0)
             {
-                return numero / divisor;
+                throw new DivideByZeroException("Tentativa de divisão por 0 com o numero " + numero + " e divisor " + divisor);
             }
-            catch (DivideByZeroException)
-            {
-                Console.WriteLine("Exceção com numero=" + numero + " e divisor=" + divisor);
-                throw;
-                Console.WriteLine("Código depois do throw");
-            }
+            return numero / divisor;
+
         }
 
     }
